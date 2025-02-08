@@ -1,11 +1,7 @@
 import asyncio
 from handlers import start , random , my_info
 from aiogram import Bot, Dispatcher
-from dotenv import dotenv_values
-
-token = dotenv_values('.env')['BOT_TOKEN']
-bot = Bot(token=token)
-dp = Dispatcher(bot)
+from bot_config import bot , dp
 
 async def main():
     start.register_handlers(dp)
