@@ -1,5 +1,10 @@
 import asyncio
-from handlers import start , random , my_info
+from handlers import (
+    start ,
+    random ,
+    my_info,
+    review_dialog
+)
 from aiogram import Bot, Dispatcher
 from bot_config import bot , dp
 

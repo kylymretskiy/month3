@@ -15,7 +15,8 @@ async def start_command(message: types.Message):
             [types.InlineKeyboardButton(text="Инстаграм", url="https://geeks.kg")],
             [types.InlineKeyboardButton(text="Оставить отзыв", callback_data="feedback")],
             [types.InlineKeyboardButton(text="Наши вакансии", callback_data="vacancies")],
-            [types.InlineKeyboardButton(text="Меню", callback_data="menu")]
+            [types.InlineKeyboardButton(text="Меню", callback_data="menu")],
+            [types.InlineKeyboardButton(text="Жалоба", callback_data="review")]
     ])
 
     await message.answer(f"Hello , {user.first_name}" , reply_markup=kb)
