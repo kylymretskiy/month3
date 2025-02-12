@@ -28,6 +28,11 @@ async def process_username(message: Message, state: FSMContext):
     await message.answer("поставьте нам оценку от 1 до 5")
 
 async def process_rate(message: Message, state: FSMContext):
+    ms = message.text
+    if not ms.isdigit() or int(ms) < 1 or int(ms) > 5:
+        await message.answer("Вводите только цифры от 1 до 5!")
+        return
+
     async with state.proxy() as data:
         data["rate"] = message.text
     await RestourantReview.next()
