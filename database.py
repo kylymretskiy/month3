@@ -9,7 +9,7 @@ class Database:
         with sqlite3.connect(self.path) as conn:
             cursor = conn.cursor()
             cursor.execute("""
-                CREATE TABLE IF NOT EXISTS complaints(
+                CREATE TABLE IF NOT EXISTS reviews(
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
                     name TEXT,
                     instagram_username TEXT,
@@ -25,7 +25,7 @@ class Database:
             cursor = conn.cursor()
             cursor.execute(
                 """
-                INSERT INTO complaints (name, instagram_username, rate ,extra_comments) VALUES (?, ?, ?, ?)
+                INSERT INTO reviews (name, instagram_username, rate ,extra_comments) VALUES (?, ?, ?, ?)
             """,
                 (data["name"],data["instagram_username"] ,data["rate"], data["extra_comments"]),
             )

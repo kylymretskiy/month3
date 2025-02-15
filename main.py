@@ -7,15 +7,13 @@ from handlers import (
 )
 from bot_config import dp , database
 
-async def onstartup(_):
-    database.create_tables()
 
 async def main():
     start.register_handlers(dp)
     random.register_handlers(dp)
     my_info.register_handlers(dp)
     review_dialog.register_handlers(dp)
-    await dp.start_polling(onstartup=onstartup)
+    database.create_tables()
 
     await dp.start_polling()
 
