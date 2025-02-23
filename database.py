@@ -16,9 +16,28 @@ class Database:
                     rate INTEGER,
                     extra_comments TEXT
                 )        
-            """)
-            conn.commit()
+            """),
+            cursor.execute("""
+                CREATE TABLE IF NOT EXISTS store(
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    name_product TEXT,
+                    size TEXT
+                    category TEXT,
+                    price INTEGER,
+                    photo TEXT,
+                    product_id INTEGER
 
+                )
+            """),
+            cursor.execute("""
+                CREATE TABLE IF NOT EXISTS products_details(
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    product_id INTEGER,
+                    category TEXT,
+                    infoproduct TEXT
+                )
+            conn.commit()
+             """)
     def add_complaint(self, data: dict):
         print(data)
         with sqlite3.connect(self.path) as conn:
