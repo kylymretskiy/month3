@@ -4,10 +4,11 @@ from handlers import (
     random ,
     my_info,
     review_dialog,
-    store_fsm
+    store_fsm,
+    send_products
 )
 from bot_config import dp , database
-
+from db.main_db import create_tables
 
 async def main():
     start.register_handlers(dp)
@@ -16,8 +17,10 @@ async def main():
     review_dialog.register_handlers(dp)
     database.create_tables()
     store_fsm.register_handlers(dp)
+    send_products.register_handlers(dp)
 
     await dp.start_polling()
+    await create_tables()
 
 if __name__ == "__main__":
     asyncio.run(main())
