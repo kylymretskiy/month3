@@ -21,7 +21,7 @@ class Database:
                 CREATE TABLE IF NOT EXISTS store(
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
                     name_product TEXT,
-                    size TEXT
+                    size TEXT,
                     category TEXT,
                     price INTEGER,
                     photo TEXT,
@@ -36,8 +36,8 @@ class Database:
                     category TEXT,
                     infoproduct TEXT
                 )
-            conn.commit()
              """)
+            conn.commit()
     def add_complaint(self, data: dict):
         print(data)
         with sqlite3.connect(self.path) as conn:
