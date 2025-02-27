@@ -2,8 +2,6 @@ from aiogram import types, Dispatcher
 from aiogram.dispatcher.filters.state import State, StatesGroup
 from aiogram.dispatcher.filters import Text
 from aiogram.dispatcher import FSMContext
-from db import main_db
-import logging
 
 
 
@@ -15,7 +13,6 @@ class StoreFSM(StatesGroup):
     product_id = State()
     infoproduct = State()
     photo = State()
-    collection = State
     submit = State()
 
 
@@ -85,52 +82,17 @@ async def load_photo(message: types.Message, state: FSMContext):
                          f'Размер - {data["size"]}\n'
                          f'Артикул - {data["product_id"]}\n')
 
-async def load_collection(message: types.Message, state: FSMContext):
-    async with state.proxy() as data:
-        data["collection"] = message.text
-    await StoreFSM.next()
-    await message.answer("Верные ли данные?")
-    await message.answer_photo(
-        photo=data['photo'],
-        caption=(
-            f'Название - {data["name_product"]}\n'
-            f'Категория - {data["category"]}\n'
-            f'Цена - {data["price"]}\n'
-            f'Размер - {data["size"]}\n'
-            f'Артикул - {data["product_id"]}\n'
-            f'Описание - {data["info_product"]}\n'
-            f'Коллекция - {data["collection"]}'
-        )
-    )
-
 async def submit_load(message: types.Message, state: FSMContext):
-    async with state.proxy() as data:
-        if message.text.lower() == 'да':
-            try:
-                await main_db.sql_insert_store(
-                    name_product=data['name_product'],
-                    price=data['price'],
-                    size=data['size'],
-                    product_id=data['product_id'],
-                    photo=data['photo']
-                )
-                await main_db.sql_insert_store_details(
-                    category=data['category'],
-                    product_id=data['product_id']
-                )
-                await main_db.sql_insert_collection_query(
-                    product_id=data['product_id'],
-                    collection=data['collection']
-                )
-                await message.answer('Ваши данные в базе!')
-            except Exception as e:
-                logger.error(f"Ошибка при добавлении данных в базу: {e}")
-                await message.answer("Произошла ошибка при сохранении данных. Попробуйте снова.")
-        elif message.text.lower() == 'нет':
-            await message.answer('Хорошо, отменено!')
-        else:
-            await message.answer('Выберите "да" или "нет".')
-    await state.finish()
+    if message.text == 'да':
+        async with state.proxy() as data:
+            await message.answer('Ваши данные в базе!')
+            await state.finish()
+    elif message.text == 'нет':
+        await message.answer('Хорошо, отменено!')
+        await state.finish()
+
+    else:
+        await message.answer('Выберите да или нет')
 
 
 async def cancel_fsm(message: types.Message, state: FSMContext):

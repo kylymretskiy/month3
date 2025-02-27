@@ -7,8 +7,6 @@ from handlers import (
     store_fsm
 )
 from bot_config import dp , database
-from db.main_db import create_tables
-
 
 
 async def main():
@@ -16,11 +14,10 @@ async def main():
     random.register_handlers(dp)
     my_info.register_handlers(dp)
     review_dialog.register_handlers(dp)
-    # database.create_tables()
+    database.create_tables()
     store_fsm.register_handlers(dp)
 
     await dp.start_polling()
-    await create_tables()
 
 if __name__ == "__main__":
     asyncio.run(main())
