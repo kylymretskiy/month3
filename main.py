@@ -5,7 +5,8 @@ from handlers import (
     my_info,
     review_dialog,
     store_fsm,
-    send_products
+    send_products,
+    edit_products
 )
 from bot_config import dp , database
 from db.main_db import create_tables
@@ -18,6 +19,7 @@ async def main():
     database.create_tables()
     store_fsm.register_handlers(dp)
     send_products.register_handlers(dp)
+    edit_products.register_handlers(dp)
 
     await dp.start_polling()
     await create_tables()

@@ -47,3 +47,31 @@ def fetch_all_products():
     """).fetchall()
     conn.close()
     return products
+
+def update_product_field(product_id, field_name, new_value):
+    conn = get_db_connection()
+
+    store_table = ['name_product', 'category', 'price', 'size', 'product_id', 'photo']
+    products_details_table = ['category', 'product_id']
+    store_collection_products_table = ['product_id', 'collection']
+
+    try:
+        if field_name in store_table:
+            query = f'UPDATE store SET {field_name} = ? WHERE product_id = ?'
+        elif field_name in products_details_table:
+            query = f'UPDATE products_details SET {field_name} = ? WHERE product_id = ?'
+
+        elif field_name in store_collection_products_table:
+            query = f'UPDATE collection_products SET {field_name} = ? WHERE product_id = ?'
+
+        else:
+            raise ValueError(f'Нет такого поля как {field_name}')
+
+        conn.execute(query, (new_value, product_id))
+        conn.commit()
+
+    except sqlite3.OperationalError as error:
+        print(f'Ошибка - {error}')
+
+    finally:
+        conn.close()
